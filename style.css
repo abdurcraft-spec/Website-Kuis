@@ -5,7 +5,6 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Latar Utama: Midnight Navy dengan Pola Garis Diagonal Halus */
 body {
   background-color: #0b132b;
   background-image: repeating-linear-gradient(
@@ -25,43 +24,41 @@ body {
 
 .game-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 650px;
 }
 
-/* Layout Header (Level & Skor Berdampingan) */
 .header-info {
   display: flex;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 
 .status-bar {
   display: flex;
   align-items: center;
   background-color: #1c2541;
-  padding: 8px 16px;
+  padding: 10px 16px;
   border-radius: 30px;
   border: 1px solid #3a506b;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  gap: 16px;
+  gap: 12px;
 }
 
 .badge {
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: transform 0.2s ease;
+  gap: 6px;
 }
 
 .badge-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   color: #5bc0be;
   letter-spacing: 1px;
 }
 
 .badge-value {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: #ffffff;
 }
@@ -72,25 +69,29 @@ body {
   background-color: #3a506b;
 }
 
-/* Animasi Pulse pada Level */
-.badge.pulse-level {
-  animation: pulse 0.6s ease-in-out 2;
+/* Timer Bar */
+.timer-container {
+  width: 100%;
+  height: 8px;
+  background-color: #1c2541;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid #3a506b;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.15);
-  }
-  100% {
-    transform: scale(1);
-  }
+.timer-bar {
+  height: 100%;
+  width: 100%;
+  background: #5bc0be;
+  transition:
+    width 0.1s linear,
+    background-color 0.3s ease;
 }
 
-/* Area Game Utama */
-.game-area {
+/* Game Area */
+.game-area,
+.review-area {
   background-color: #1c2541;
   border-radius: 20px;
   padding: 32px 24px 24px 24px;
@@ -100,7 +101,6 @@ body {
   border: 1px solid #2a3859;
 }
 
-/* Tag Kategori */
 .card-tag {
   position: absolute;
   top: -12px;
@@ -112,42 +112,99 @@ body {
   border-radius: 12px;
   text-transform: uppercase;
   font-weight: 700;
-  letter-spacing: 0.5px;
   border: 1px solid #5bc0be;
 }
 
-/* Teks Soal */
 .question {
   font-size: 20px;
   color: #ffffff;
-  margin: 15px 0 30px 0;
+  margin: 10px 0 15px 0;
   line-height: 1.5;
   font-weight: 600;
 }
 
-/* Layout Baris Kartu Horizontal */
+/* Power-ups / Bantuan */
+.powerups-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.btn-powerup {
+  background-color: #3a506b;
+  color: #ffffff;
+  border: 1px solid #5bc0be;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-powerup:hover:not(:disabled) {
+  background-color: #5bc0be;
+  color: #0b132b;
+}
+
+.btn-powerup:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: #64748b;
+}
+
+/* Row Kartu & 3D Flip */
 .card-row {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   gap: 12px;
   margin-bottom: 20px;
 }
 
-/* Kartu Pilihan Jawaban */
-.single-card {
-  width: 100px;
+.card-container {
+  width: 120px;
   height: 150px;
-  border: 2px solid #5bc0be;
-  border-radius: 14px;
+  perspective: 1000px;
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
+}
+
+.card-container.disabled-card {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.card-container.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 14px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px;
+  padding: 12px 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-front {
+  border: 2px solid #5bc0be;
   background-color: #3a506b;
   background-image: repeating-linear-gradient(
     45deg,
@@ -156,36 +213,41 @@ body {
     transparent 0,
     transparent 8px
   );
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.single-card:hover {
-  transform: translateY(-6px);
-  background-color: #5bc0be;
+.card-container:hover .card-front {
+  transform: translateY(-4px);
   border-color: #ffffff;
-  box-shadow: 0 10px 20px rgba(91, 192, 190, 0.3);
 }
 
-/* Teks Jawaban Vertikal */
 .card-content {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-size: 17px;
+  font-size: 16px;
   color: #ffffff;
   font-weight: 700;
-  letter-spacing: 1px;
-  user-select: none;
-  transition: color 0.2s ease;
+  word-break: break-word;
 }
 
-.single-card:hover .card-content {
-  color: #0b132b;
+.card-back {
+  transform: rotateY(180deg);
+  font-size: 16px;
+  font-weight: bold;
 }
 
-/* Feedback */
+.card-back.correct-bg {
+  background-color: #10b981;
+  border: 2px solid #34d399;
+  color: #ffffff;
+}
+
+.card-back.wrong-bg {
+  background-color: #ef4444;
+  border: 2px solid #f87171;
+  color: #ffffff;
+}
+
 .feedback {
-  margin-top: 20px;
-  padding: 12px;
+  margin-top: 15px;
+  padding: 10px;
   border-radius: 10px;
   font-weight: bold;
   font-size: 14px;
@@ -203,11 +265,48 @@ body {
   border: 1px solid #ef4444;
 }
 
+.explanation-box {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: #0b132b;
+  border-radius: 10px;
+  border: 1px solid #3a506b;
+  font-size: 13px;
+  color: #cbd5e1;
+  text-align: left;
+}
+
+.explanation-box strong {
+  color: #5bc0be;
+}
+
+.final-score {
+  font-size: 20px;
+  font-weight: bold;
+  color: #6fffe9;
+  margin: 15px 0;
+}
+
+.wrong-list {
+  text-align: left;
+  max-height: 250px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.wrong-item {
+  background-color: #0b132b;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  border-left: 4px solid #ef4444;
+  font-size: 13px;
+}
+
 .hidden {
   display: none !important;
 }
 
-/* --- MODAL LEVEL UP --- */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -238,39 +337,7 @@ body {
   text-align: center;
   max-width: 320px;
   width: 90%;
-  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
-  transform: translateY(20px) scale(0.95);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   color: #ffffff;
-}
-
-.modal-overlay.show .modal-box {
-  transform: translateY(0) scale(1);
-}
-
-.level-up-icon {
-  font-size: 36px;
-  background: #5bc0be;
-  color: #0b132b;
-  width: 64px;
-  height: 64px;
-  line-height: 64px;
-  border-radius: 50%;
-  margin: 0 auto 16px;
-  box-shadow: 0 4px 15px rgba(91, 192, 190, 0.4);
-}
-
-.modal-box h2 {
-  font-size: 22px;
-  color: #ffffff;
-  font-weight: 800;
-  margin-bottom: 8px;
-}
-
-.modal-box p {
-  color: #cbd5e1;
-  font-size: 14px;
-  margin-bottom: 24px;
 }
 
 .btn-continue {
@@ -283,15 +350,4 @@ body {
   font-weight: bold;
   cursor: pointer;
   width: 100%;
-  transition:
-    background-color 0.2s ease,
-    transform 0.1s ease;
-}
-
-.btn-continue:hover {
-  background-color: #6fffe9;
-}
-
-.btn-continue:active {
-  transform: scale(0.98);
 }

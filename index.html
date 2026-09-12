@@ -1,45 +1,83 @@
 <!doctype html>
-<html lang="id">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tugas Game Kuis</title>
+    <title>JLPT N4 Bunpou Card Game</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   </head>
   <body>
     <div class="game-container">
-      <!-- Header Info Berdampingan -->
-      <header class="header-info">
+      <!-- Header Info -->
+      <div class="header-info">
         <div class="status-bar">
           <div class="badge" id="level-badge">
             <span class="badge-label">LEVEL</span>
             <span class="badge-value" id="level-txt">1 (Easy)</span>
           </div>
           <div class="divider"></div>
-          <div class="badge" id="score-badge">
+          <div class="badge">
             <span class="badge-label">SKOR</span>
             <span class="badge-value" id="score-txt">0</span>
           </div>
+          <div class="divider"></div>
+          <div class="badge">
+            <span class="badge-label">COMBO</span>
+            <span class="badge-value" id="combo-txt">0x</span>
+          </div>
+          <div class="divider"></div>
+          <div class="badge">
+            <span class="badge-label">NYAWA</span>
+            <span class="badge-value" id="lives-txt">❤️❤️❤️</span>
+          </div>
         </div>
-      </header>
+      </div>
 
-      <main class="game-area">
-        <span class="card-tag"> Pilih opsi yang benar! </span>
+      <!-- Progress Bar -->
+      <div class="timer-container">
+        <div class="timer-bar" id="progress-bar"></div>
+      </div>
+
+      <!-- Game Area -->
+      <div class="game-area" id="game-area">
+        <span class="card-tag">BUNPOU N4</span>
         <p class="question" id="question-txt">Memuat soal...</p>
 
-        <!-- 4 Kartu Opsi Jawaban Berjajar Horizontal -->
+        <!-- Grid Kartu Jawaban -->
         <div class="card-row" id="card-row"></div>
 
+        <!-- Feedback -->
         <div id="feedback" class="feedback hidden"></div>
-      </main>
+
+        <!-- Kotak Penjelasan Tata Bahasa -->
+        <div id="explanation-box" class="explanation-box hidden">
+          <strong>Penjelasan:</strong>
+          <p id="explanation-txt"></p>
+        </div>
+      </div>
+
+      <!-- Review Screen -->
+      <div id="review-screen" class="review-area hidden">
+        <h2>Ringkasan Hasil Ujian</h2>
+        <p id="final-score-txt" class="final-score"></p>
+        <div id="wrong-list" class="wrong-list"></div>
+        <button
+          onclick="resetGame()"
+          class="btn-continue"
+          style="margin-top: 20px"
+        >
+          Main Lagi
+        </button>
+      </div>
     </div>
 
-    <!-- Modal Level Up Kustom -->
+    <!-- Modal Level Up -->
     <div id="level-modal" class="modal-overlay hidden">
       <div class="modal-box">
-        <div class="level-up-icon">⚡</div>
+        <div class="level-up-icon">🎉</div>
         <h2>LEVEL UP!</h2>
-        <p id="modal-desc">Kamu naik ke level baru!</p>
+        <p id="modal-desc">Selamat! Kamu berhasil naik level.</p>
         <button id="close-modal-btn" class="btn-continue">Lanjut Main</button>
       </div>
     </div>
