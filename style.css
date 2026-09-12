@@ -1,0 +1,297 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Latar Utama: Midnight Navy dengan Pola Garis Diagonal Halus */
+body {
+  background-color: #0b132b;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 20px
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: #ffffff;
+}
+
+.game-container {
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Layout Header (Level & Skor Berdampingan) */
+.header-info {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  background-color: #1c2541;
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: 1px solid #3a506b;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  gap: 16px;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s ease;
+}
+
+.badge-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #5bc0be;
+  letter-spacing: 1px;
+}
+
+.badge-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background-color: #3a506b;
+}
+
+/* Animasi Pulse pada Level */
+.badge.pulse-level {
+  animation: pulse 0.6s ease-in-out 2;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Area Game Utama */
+.game-area {
+  background-color: #1c2541;
+  border-radius: 20px;
+  padding: 32px 24px 24px 24px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  position: relative;
+  text-align: center;
+  border: 1px solid #2a3859;
+}
+
+/* Tag Kategori */
+.card-tag {
+  position: absolute;
+  top: -12px;
+  left: 24px;
+  background-color: #3a506b;
+  color: #e0f2fe;
+  font-size: 11px;
+  padding: 4px 14px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border: 1px solid #5bc0be;
+}
+
+/* Teks Soal */
+.question {
+  font-size: 20px;
+  color: #ffffff;
+  margin: 15px 0 30px 0;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+/* Layout Baris Kartu Horizontal */
+.card-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Kartu Pilihan Jawaban */
+.single-card {
+  width: 100px;
+  height: 150px;
+  border: 2px solid #5bc0be;
+  border-radius: 14px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #3a506b;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(91, 192, 190, 0.15) 0,
+    rgba(91, 192, 190, 0.15) 2px,
+    transparent 0,
+    transparent 8px
+  );
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.single-card:hover {
+  transform: translateY(-6px);
+  background-color: #5bc0be;
+  border-color: #ffffff;
+  box-shadow: 0 10px 20px rgba(91, 192, 190, 0.3);
+}
+
+/* Teks Jawaban Vertikal */
+.card-content {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 17px;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 1px;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.single-card:hover .card-content {
+  color: #0b132b;
+}
+
+/* Feedback */
+.feedback {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.feedback.correct {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid #10b981;
+}
+
+.feedback.wrong {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid #ef4444;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* --- MODAL LEVEL UP --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(11, 19, 43, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-box {
+  background: #1c2541;
+  border: 1px solid #5bc0be;
+  padding: 32px 24px;
+  border-radius: 20px;
+  text-align: center;
+  max-width: 320px;
+  width: 90%;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: #ffffff;
+}
+
+.modal-overlay.show .modal-box {
+  transform: translateY(0) scale(1);
+}
+
+.level-up-icon {
+  font-size: 36px;
+  background: #5bc0be;
+  color: #0b132b;
+  width: 64px;
+  height: 64px;
+  line-height: 64px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  box-shadow: 0 4px 15px rgba(91, 192, 190, 0.4);
+}
+
+.modal-box h2 {
+  font-size: 22px;
+  color: #ffffff;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.modal-box p {
+  color: #cbd5e1;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.btn-continue {
+  background-color: #5bc0be;
+  color: #0b132b;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.btn-continue:hover {
+  background-color: #6fffe9;
+}
+
+.btn-continue:active {
+  transform: scale(0.98);
+}
